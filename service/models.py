@@ -18,23 +18,26 @@ class DataValidationError(Exception):
     pass
 
 
-class YourResourceModel(db.Model):
+class Product(db.Model):
     """
-    Class that represents a YourResourceModel
+    Class that represents a Product
     """
 
     app = None
 
     # Table Schema
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(63))
+    name = db.Column(db.String(63), nullable=False)
+    category = db.Column(db.String(63), nullable=False)
+    available = db.Column(db.Boolean(), nullable=False, default=False)
+    price = db.Column(db.Float(), nullable=False)
 
     def __repr__(self):
-        return "<YourResourceModel %r id=[%s]>" % (self.name, self.id)
+        return "<Product %r id=[%s]>" % (self.name, self.id)
 
     def create(self):
         """
-        Creates a YourResourceModel to the database
+        Creates a Product to the database
         """
         logger.info("Creating %s", self.name)
         self.id = None  # id must be none to generate next primary key
@@ -43,30 +46,38 @@ class YourResourceModel(db.Model):
 
     def update(self):
         """
-        Updates a YourResourceModel to the database
+        Updates a Product to the database
         """
         logger.info("Saving %s", self.name)
         db.session.commit()
 
     def delete(self):
-        """ Removes a YourResourceModel from the data store """
+        """ Removes a Product from the data store """
         logger.info("Deleting %s", self.name)
         db.session.delete(self)
         db.session.commit()
 
     def serialize(self):
-        """ Serializes a YourResourceModel into a dictionary """
-        return {"id": self.id, "name": self.name}
+        """ Serializes a Product into a dictionary """
+        return {"id": self.id, 
+        "name": self.name,
+        "category": self.category,
+        "price": self.price,
+        "available": self.available
+        }
 
     def deserialize(self, data):
         """
-        Deserializes a YourResourceModel from a dictionary
+        Deserializes a Product from a dictionary
 
         Args:
             data (dict): A dictionary containing the resource data
         """
         try:
             self.name = data["name"]
+            self.category = data["category"]
+            self.price = data["price"]
+            self.available = data["available"]
         except KeyError as error:
             raise DataValidationError(
                 "Invalid YourResourceModel: missing " + error.args[0]
