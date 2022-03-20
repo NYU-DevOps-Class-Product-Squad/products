@@ -1,10 +1,11 @@
 """
-Models for YourResourceModel
+Models for Product
 
 All of the models are stored in this module
 """
 import logging
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
 
 logger = logging.getLogger("flask.app")
 
@@ -15,7 +16,10 @@ db = SQLAlchemy()
 class DataValidationError(Exception):
     """ Used for an data validation errors when deserializing """
 
-    pass
+
+def init_db(app):
+    """Initialize the SQLAlchemy app"""
+    Product.init_db(app)
 
 
 class Product(db.Model):
@@ -66,7 +70,7 @@ class Product(db.Model):
         "available": self.available
         }
 
-    def deserialize(self, data):
+    def deserialize(self, data: dict):
         """
         Deserializes a Product from a dictionary
 
@@ -77,22 +81,28 @@ class Product(db.Model):
             self.name = data["name"]
             self.category = data["category"]
             self.price = data["price"]
-            self.available = data["available"]
+            if isinstance(data["available"], bool):
+                self.available = data["available"]
+            else:
+                raise DataValidationError(
+                    "Invalid type for boolean [available]: "
+                    + str(type(data["available"]))
+                )
         except KeyError as error:
             raise DataValidationError(
-                "Invalid YourResourceModel: missing " + error.args[0]
+                "Invalid Product: missing " + error.args[0]
             )
         except TypeError as error:
             raise DataValidationError(
-                "Invalid YourResourceModel: body of request contained bad or no data"
+                "Invalid Product: body of request contained bad or no data"
             )
         return self
 
     @classmethod
-    def init_db(cls, app):
+    def init_db(cls, app: Flask):
         """ Initializes the database session """
         logger.info("Initializing database")
-        cls.app = app
+        #cls.app = app
         # This is where we initialize SQLAlchemy from the Flask app
         db.init_app(app)
         app.app_context().push()
@@ -100,22 +110,56 @@ class Product(db.Model):
 
     @classmethod
     def all(cls):
-        """ Returns all of the YourResourceModels in the database """
-        logger.info("Processing all YourResourceModels")
+        """ Returns all of the Products in the database """
+        logger.info("Processing all Products")
         return cls.query.all()
 
     @classmethod
     def find(cls, by_id):
-        """ Finds a YourResourceModel by it's ID """
+        """ Finds a Product by it's ID """
         logger.info("Processing lookup for id %s ...", by_id)
         return cls.query.get(by_id)
 
     @classmethod
     def find_by_name(cls, name):
-        """Returns all YourResourceModels with the given name
+        """Returns all Products with the given name
 
         Args:
-            name (string): the name of the YourResourceModels you want to match
+            name (string): the name of the Product you want to match
         """
         logger.info("Processing name query for %s ...", name)
         return cls.query.filter(cls.name == name)
+
+    @classmethod
+    def find_by_availability(cls, available: bool = True) -> list:
+        """Returns all Products by availability
+
+        :param available: True for products that are available
+        :type available: str
+        :return: a collection of Products that are available
+        :rtype: list
+        """
+        logger.info("Processing available query for %s ...", available)
+        return cls.query.filter(cls.available == available)
+
+    @classmethod
+    def find_by_category(cls, category: str) -> list:
+        """Returns all of the Products in a category
+        :param category: the category of the Products you want to match
+        :type category: str
+        :return: a collection of Products in that category
+        :rtype: list
+        """
+        logger.info("Processing category query for %s ...", category)
+        return cls.query.filter(cls.category == category)
+
+    @classmethod
+    def find_or_404(cls, product_id: int):
+        """Find a Product by its id
+        :param product_id: the id of the Product to find
+        :type product_id: int
+        :return: an instance with the product_id, or 404_NOT_FOUND if not found
+        :rtype: Product
+        """
+        logger.info("Processing lookup or 404 for id %s ...", product_id)
+        return cls.query.get_or_404(product_id)
