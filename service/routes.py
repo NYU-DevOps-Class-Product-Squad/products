@@ -10,6 +10,7 @@ PUT /products/{id} - updates a Product record in the database
 DELETE /products/{id} - deletes a Product record in the database
 """
 
+from itertools import product
 import os
 import sys
 import logging
@@ -101,6 +102,24 @@ def list_products():
     results = [product.serialize() for product in products]
     app.logger.info("Returning %d products", len(results))
     return make_response(jsonify(results), status.HTTP_200_OK)
+
+
+######################################################################
+# DELETE A PRODUCT
+######################################################################
+@app.route("/pets/<int:pet_id>", methods=["DELETE"])
+def delete_products(product_id):
+    """
+    Delete a product
+    This endpoint will delete a product based the id specified in the path
+    """
+    app.logger.info("Request to delete pet with id: %s", product_id)
+    product = product.find(product_id)
+    if product:
+        product.delete()
+
+    app.logger.info("product with ID [%s] delete complete.", product_id)
+    return make_response("", status.HTTP_204_NO_CONTENT)
 
 
 ######################################################################
