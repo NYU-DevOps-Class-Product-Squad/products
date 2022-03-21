@@ -8,6 +8,7 @@ import os
 from werkzeug.exceptions import NotFound
 from service.models import Product, DataValidationError, db
 from service import app
+from .factories import ProductFactory
 
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgresql://postgres:postgres@localhost:5432/testdb"
@@ -197,8 +198,8 @@ class TestProductModel(unittest.TestCase):
 
     def test_find_by_category(self):
         """Find Products by Category"""
-        Product(name="Pen", category="Stationary", available=True).create()
-        Product(name="Pants", category="Clothes", available=False).create()
+        Product(name="Pen", category="Stationary", available=True, price=10.0).create()
+        Product(name="Pants", category="Clothes", available=False, price=49.99).create()
         products = Product.find_by_category("Clothes")
         self.assertEqual(products[0].category, "Clothes")
         self.assertEqual(products[0].name, "Pants")
@@ -206,8 +207,8 @@ class TestProductModel(unittest.TestCase):
 
     def test_find_by_name(self):
         """Find a Product by Name"""
-        Product(name="Pen", category="Stationary", available=True).create()
-        Product(name="Pants", category="Clothes", available=False).create()
+        Product(name="Pen", category="Stationary", available=True, price=10.0).create()
+        Product(name="Pants", category="Clothes", available=False, price=49.99).create()
         products = Product.find_by_name("Pants")
         self.assertEqual(products[0].category, "Clothes")
         self.assertEqual(products[0].name, "Pants")
@@ -215,9 +216,9 @@ class TestProductModel(unittest.TestCase):
 
     def test_find_by_availability(self):
         """Find Products by Availability"""
-        Product(name="Pen", category="Stationary", available=True).create()
-        Product(name="Pants", category="Clothes", available=False).create()
-        Product(name="Pencil", category="Stationary", available=True).create()
+        Product(name="Pen", category="Stationary", available=True, price=10.0).create()
+        Product(name="Pants", category="Clothes", available=False, price=49.99).create()
+        Product(name="Pencil", category="Stationary", available=True, price=0.99).create()
         products = Product.find_by_availability(False)
         product_list = list(products)
         self.assertEqual(len(product_list), 1)
