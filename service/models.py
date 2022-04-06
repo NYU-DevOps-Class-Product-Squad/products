@@ -163,3 +163,13 @@ class Product(db.Model):
         """
         logger.info("Processing lookup or 404 for id %s ...", product_id)
         return cls.query.get_or_404(product_id)
+
+    @classmethod
+    def query_by_price(cls, minimum: float, maximum: float):
+        """Returns all Products within specified range
+        :param description: the price range of the Products you want to match
+        :type description: two floats
+        :return: a collection of Products match the price range
+        :rtype: list
+        """
+        return cls.query.filter(cls.price.between(minimum, maximum))
