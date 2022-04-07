@@ -2,6 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+[![Build Status](https://github.com/jsimms-nyu/products/actions/workflows/tdd.yml/badge.svg)](https://github.com/jsimms-nyu/products/actions)
+
+
 ## Overview
 
 This is the products service, which is used to list, create, read, update, and delete products in the products database.
