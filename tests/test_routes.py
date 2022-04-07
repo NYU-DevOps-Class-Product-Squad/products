@@ -81,6 +81,43 @@ class TestProductServer(TestCase):
         data = resp.get_json()
         self.assertEqual(data["name"], test_product.name)
 
+    def test_query_name(self):
+        """ Query Products by Name """
+        products = self._create_products(10)
+        test_name = products[0].name
+        name_products = [product for product in products if product.name == test_name]
+        resp = self.app.get("/products", query_string="name={}".format(test_name))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(len(data), len(name_products))
+        # check that they are the same
+        for product in data:
+            self.assertEqual(product["name"], test_name)
+       
+    def test_query_category(self):
+        """ Query Products by Category """
+        products = self._create_products(10)
+        test_category = products[0].category
+        category_products = [product for product in products if product.category == test_category]
+        resp = self.app.get("/products", query_string="category={}".format(test_category))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(len(data), len(category_products))
+        # check that data matches
+        for product in data:
+            self.assertEqual(product["category"], test_category)
+
+    def test_query_price(self):
+        """ Query Products by Price Range """
+        products = self._create_products(10)
+        test_max_price = products[0].price * 10
+        test_min_price = products[0].price / 10
+        price_products = [product for product in products if product.price >= test_min_price and product.price <= test_max_price]
+        resp = self.app.get("/products", query_string="minimum={}&maximum={}".format(test_min_price, test_max_price))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(len(data), len(price_products))
+
     def test_get_product_not_found(self):
         """Get a Product thats not found"""
         resp = self.app.get("/products/0")

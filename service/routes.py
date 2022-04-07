@@ -113,10 +113,14 @@ def list_products():
     products = []
     category = request.args.get("category")
     name = request.args.get("name")
+    minimum = request.args.get("minimum")
+    maximum = request.args.get("maximum")
     if category:
         products = Product.find_by_category(category)
     elif name:
         products = Product.find_by_name(name)
+    elif minimum and maximum:
+        products = Product.query_by_price(minimum, maximum)
     else:
         products = Product.all()
 
