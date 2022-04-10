@@ -15,12 +15,17 @@ jobs:
     # Required services    
     services:
       # Label used to access the service container
-      redis:
+      postgres:
         # Docker Hub image
-        image: redis
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
         # Set health checks to wait until redis has started
         options: >-
-          --health-cmd "redis-cli ping"
+          --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -45,13 +50,13 @@ jobs:
       - name: Run unit tests with nose
         run: nosetests
         env:
-          DATABASE_URI: "redis://redis:6379"
+          DATABASE_URI: "postgresql://postgres:postgres@postgres:5432/testdb"
 
       # Uncomment the following 2 lines during hands-on lab
 
 
-      #- name: Upload code coverage
-      #   uses: codecov/codecov-action@v2
-      #   with:
-      #     version: "v0.1.13"      
+      - name: Upload code coverage
+         uses: codecov/codecov-action@v2
+         with:
+           version: "v0.1.13"      
   
