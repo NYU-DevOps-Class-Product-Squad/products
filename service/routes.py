@@ -8,6 +8,12 @@ GET /products/{id} - Returns the Product with a given id number
 POST /products - creates a new Product record in the database
 PUT /products/{id} - updates a Product record in the database
 DELETE /products/{id} - deletes a Product record in the database
+
+Actions:
+
+PUT /products/{id}/disable - Disable a product 
+PUT /products/{id}/like - Count Like of a product
+
 """
 
 from itertools import product
