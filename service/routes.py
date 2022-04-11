@@ -12,7 +12,7 @@ DELETE /products/{id} - deletes a Product record in the database
 Actions:
 
 PUT /products/{id}/disable - Disable a product 
-PUT /products/{id}/like - Count Like of a product
+PUT /products/{id}/enable - Enable of a product
 
 """
 
@@ -174,3 +174,41 @@ def check_content_type(media_type):
         "Content-Type must be {}".format(media_type),
     )
     
+######################################################################
+# UPDATE A PRODUCT'S AVAILABILITY to FALSE
+######################################################################
+@app.route("/products/<int:product_id>/disable", methods=["PUT"])
+def disable_product(product_id):
+    """Update a Product's availability to false
+    IRL, this action would also remove the product from shopping carts, tell the warehouse to order more, and/or something similar
+    """
+    app.logger.info("Request to disable product with id: %s", product_id)
+    check_content_type("application/json")
+    product = Product.find(product_id)
+    if not product:
+        raise NotFound(
+           "Product with id '{}' was not found.".format(product_id))
+    product.deserialize(request.get_json())
+    product.available = False
+    product.update()
+    app.logger.info("Product with ID [%s] disabled.", product.id)
+    return make_response(jsonify(product.serialize()), status.HTTP_200_OK)
+######################################################################
+# UPDATE A PRODUCT'S AVAILABILITY to TRUE
+######################################################################
+@app.route("/products/<int:product_id>/enable", methods=["PUT"])
+def enable_product(product_id):
+    """Update a Product's availability to true
+    IRL, this action would add the product back to the catalog so users could order it, etc.
+    """
+    app.logger.info("Request to enable product with id: %s", product_id)
+    check_content_type("application/json")
+    product = Product.find(product_id)
+    if not product:
+        raise NotFound(
+           "Product with id '{}' was not found.".format(product_id))
+    product.deserialize(request.get_json())
+    product.available = True
+    product.update()
+    app.logger.info("Product with ID [%s] enabled.", product.id)
+    return make_response(jsonify(product.serialize()), status.HTTP_200_OK)

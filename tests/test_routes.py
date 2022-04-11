@@ -202,3 +202,82 @@ class TestProductServer(TestCase):
             "{0}/{1}".format(BASE_URL, test_product.id), content_type=CONTENT_TYPE_JSON
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+
+    def test_disable_product(self):
+        """Disable an existing product"""
+        # create a product to disable
+        test_product = self._create_products(1)[0]
+        resp = self.app.post(
+            BASE_URL, json=test_product.serialize(), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        # disable the product
+        new_product = resp.get_json()
+        logging.debug(new_product)
+        resp = self.app.put(
+            "/products/{}/disable".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_product = resp.get_json()
+        logging.debug(updated_product)
+        self.assertEqual(updated_product["available"], False)
+
+    def test_disable_product_not_found(self):
+        """Disable a non-existent product"""
+        # create a product to update
+        test_product = self._create_products(1)[0]
+        resp = self.app.post(
+            BASE_URL, json=test_product.serialize(), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        # update the product
+        new_product = resp.get_json()
+        logging.debug(new_product)
+        resp = self.app.put(
+            "/products/000000/disable".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_enable_product(self):
+        """Enable an existing product"""
+        # create a product to enable
+        test_product = self._create_products(1)[0]
+        resp = self.app.post(
+            BASE_URL, json=test_product.serialize(), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        # enable the product
+        new_product = resp.get_json()
+        logging.debug(new_product)
+        resp = self.app.put(
+            "/products/{}/enable".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_product = resp.get_json()
+        logging.debug(updated_product)
+        self.assertEqual(updated_product["available"],True)
+        
+    def test_enable_product_not_found(self):
+        """Enable a non-existent product"""
+        # create a product to update
+        test_product = self._create_products(1)[0]
+        resp = self.app.post(
+            BASE_URL, json=test_product.serialize(), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        # update the product
+        new_product = resp.get_json()
+        logging.debug(new_product)
+        resp = self.app.put(
+            "/products/000000/enable".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
