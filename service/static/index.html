@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product RESTful Service</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="static/css/flatly_bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+          <h1>Product REST API Service</h1>
+      </div>
+
+      <!-- Flash Message -->
+      <div class="table-responsive">
+        <table class="table">
+          <tr><td>Status:</td><td><span id="flash_message"></span></td></tr>
+        </table>
+      </div>
+
+      <!-- FORM -->
+      <div class="col-md-15" id="form-data">
+        <h3>Create, Retrieve, Update, and Delete a Product:</h3>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="product_id">Product ID:</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="product_id" placeholder="Enter ID of Product">
+            </div>
+            <div class="col-sm-4">
+              <button type="submit" class="btn btn-primary" id="retrieve-btn">Retrieve</button>
+              <button type="submit" class="btn btn-danger" id="delete-btn">Delete</button>
+              <button type="submit" class="btn btn-warning" id="suspend-btn">Suspend</button>
+            </div>
+          </div>
+        </div><!-- form horizontal -->
+
+        <div class="form-horizontal">
+
+          <!-- PRODUCT NAME -->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="product_name">Product Name:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="product_name" placeholder="Enter a product name">
+            </div>
+          </div>
+
+          <!-- PRODUCT CATEGORY -->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="product_category">Product Category:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="product_category" placeholder="Enter a product category">
+            </div>
+          </div>
+
+          <!-- SUBMIT BUTTONS -->
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-9">
+              <button type="submit" class="btn btn-success" id="create-btn">Create</button>
+              <button type="submit" class="btn btn-warning" id="update-btn">Update</button>
+              <button type="submit" class="btn btn-info" id="search-btn">Search</button>
+              <button type="submit" class="btn btn-primary" id="clear-btn">Clear</button>
+            </div>
+          </div>
+        </div><!-- form horizontal -->
+      </div><!-- end Form -->
+
+      <!-- Search Results -->
+      <div class="table-responsive col-md-15" id="search_results">
+        <h4>Product Search Results:</h4>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th class="col-md-1">ID</th>
+            <th class="col-md-4">Name</th>
+            <th class="col-md-4">Category</th>
+            <th class="col-md-4">Availability</th>
+            <th class="col-md-4">Price</th>
+          </tr>
+          </thead>
+        </table> <!-- end table -->
+      </div>
+      <footer>
+        <br><br>
+        <p>&copy; Products Squad 2022</p>
+      </footer>
+    </div> <!-- end container -->
+
+    <script type="text/javascript" src="static/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+
+    <!-- YOUR REST API -->
+    <script type="text/javascript" src="static/js/rest_api.js"></script>
+
+  </body>
+</html>
