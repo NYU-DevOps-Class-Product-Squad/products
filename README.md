@@ -2,7 +2,10 @@
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-[![Build Status](https://github.com/jsimms-nyu/products/actions/workflows/tdd.yml/badge.svg)](https://github.com/jsimms-nyu/products/actions)
+[![Build Status](https://github.com/NYU-DevOps-Class-Product-Squad/products/actions/workflows/main.yml/badge.svg)](https://github.com/NYU-DevOps-Class-Product-Squad/products/actions)
+
+[![codecov](https://codecov.io/gh/NYU-DevOps-Class-Product-Squad/products/branch/main/graph/badge.svg?token=P4Q9SU3FP6)](https://codecov.io/gh/NYU-DevOps-Class-Product-Squad/products)
+
 
 
 ## Overview
