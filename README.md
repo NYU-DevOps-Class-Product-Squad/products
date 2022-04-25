@@ -4,7 +4,7 @@
 
 [![Build Status](https://github.com/NYU-DevOps-Class-Product-Squad/products/actions/workflows/main.yml/badge.svg)](https://github.com/NYU-DevOps-Class-Product-Squad/products/actions)
 
-[![codecov](https://codecov.io/gh/NYU-DevOps-Class-Product-Squad/products/branch/main/graph/badge.svg?token=P4Q9SU3FP6)](https://codecov.io/gh/NYU-DevOps-Class-Product-Squad/products)
+[![codecov](https://codecov.io/gh/NYU-DevOps-Class-Product-Squad/products/branch/main/graph/badge.svg?token=XAFTPW0V0T)](https://codecov.io/gh/NYU-DevOps-Class-Product-Squad/products)
 
 
 
