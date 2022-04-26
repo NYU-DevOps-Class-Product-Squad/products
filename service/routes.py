@@ -36,15 +36,16 @@ from flask_sqlalchemy import SQLAlchemy
 @app.route("/")
 def index():
     """Root URL response"""
-    app.logger.info("Request for Root URL")
-    return (
-        jsonify(
-            name="Product REST API Service",
-            version="1.0",
-            paths=url_for("list_products", _external=True),
-        ),
-        status.HTTP_200_OK,
-    )
+    return app.send_static_file("index.html")
+    # app.logger.info("Request for Root URL")
+    # return (
+    #     jsonify(
+    #         name="Product REST API Service",
+    #         version="1.0",
+    #         paths=url_for("list_products", _external=True),
+    #     ),
+    #     status.HTTP_200_OK,
+    # )
 
 
 ######################################################################

@@ -14,53 +14,54 @@ $(function () {
     function update_product_form_data(res) {
         $("#product_id").val(res.id);
         $("#product_name").val(res.name);
-        $("#customer_first_name").val(res.first_name);
-        $("#customer_last_name").val(res.last_name);
-        $("#customer_email").val(res.email);
-        $("#customer_phone_number").val(res.phone_number);
-        $("#customer_account_status").val(res.account_status);
+        $("#product_category").val(res.category);
+        $( "#product_available" ).prop( "checked", false );
+
+        if(res.available == true){
+            $( "#product_available" ).prop( "checked", true );
+        }
+
+        $("#product_price").val(res.price);
     };
     /// Clears all form fields
-    function clear_customer_form_data() {
-        $("#customer_id").val("");
-        $("#customer_name").val("");
-        $("#customer_first_name").val("");
-        $("#customer_last_name").val("");
-        $("#customer_email").val("");
-        $("#customer_phone_number").val("");
-        $("#customer_account_status").val("");
+    function clear_product_form_data() {
+        $("#product_id").val("");
+        $("#product_name").val("");
+        $("#product_category").val("");
+        $("#product_price").val("");
+        $("#product_available").prop( "checked", false );
     };
 
     // *******************************************************
-    //  C U S T O M E R   F U N C T I O N S
+    //  P R O D U C T   F U N C T I O N S
     // *******************************************************
-    // Create a Customer
+    // Create a Product
     // *******************************************************
     $("#create-btn").click(function () {
-        let name = $("#customer_name").val();
-        let first_name = $("#customer_first_name").val();
-        let last_name = $("#customer_last_name").val();
-        let email = $("#customer_email").val();
-        let phone_number = $("#customer_phone_number").val();
-        let account_status = $("#customer_account_status").val();
+        let name = $("#product_name").val();
+        let category = $("#product_category").val();
+        let price = $("#product_price").val();
+        var available = false;
+        if($("#product_available").is(':checked')){
+            available = true;
+        }
+
         let data = {
             "name": name,
-            "first_name": first_name,
-            "last_name": last_name,
-            "email": email,
-            "phone_number": phone_number,
-            "addresses": "",
-            "account_status": account_status
+            "category": category,
+            "available": available,
+            "price": price
         };
+
         $("#flash_message").empty();
         let ajax = $.ajax({
             type: "POST",
-            url: "/customers",
+            url: "/products",
             contentType: "application/json",
             data: JSON.stringify(data),
         });
         ajax.done(function(res){
-            update_customer_form_data(res);
+            update_product_form_data(res);
             flash_message("Success");
         });
         ajax.fail(function(res){
@@ -68,34 +69,33 @@ $(function () {
         });
     });
     // *******************************************************
-    // Update a Customer
+    // Update a Product
     // *******************************************************
     $("#update-btn").click(function () {
-        let customer_id = $("#customer_id").val();
-        let name = $("#customer_name").val();
-        let first_name = $("#customer_first_name").val();
-        let last_name = $("#customer_last_name").val();
-        let email = $("#customer_email").val();
-        let phone_number = $("#customer_phone_number").val();
-        let account_status = $("#customer_account_status").val();
+        let product_id = $("#product_id").val();
+        let name = $("#product_name").val();
+        let category = $("#product_category").val();
+        let price = $("#product_price").val();
+        var available = false;
+        if($("#product_available").is(':checked')){
+            available = true;
+        }
+        
         let data = {
             "name": name,
-            "first_name": first_name,
-            "last_name": last_name,
-            "email": email,
-            "phone_number": phone_number,
-            "addresses": "",
-            "account_status": account_status
+            "category": category,
+            "price": price,
+            "available": available
         };
         $("#flash_message").empty();
         let ajax = $.ajax({
                 type: "PUT",
-                url: `/customers/${customer_id}`,
+                url: `/products/${product_id}`,
                 contentType: "application/json",
                 data: JSON.stringify(data)
             });
         ajax.done(function(res){
-            update_customer_form_data(res);
+            update_product_form_data(res);
             flash_message("Success");
         });
         ajax.fail(function(res){
@@ -103,63 +103,66 @@ $(function () {
         });
     });
     // *******************************************************
-    // Retrieve a Customer
+    // Retrieve a Product
     // *******************************************************
     $("#retrieve-btn").click(function () {
-        let customer_id = $("#customer_id").val();
+        let product_id = $("#product_id").val();
         $("#flash_message").empty();
         let ajax = $.ajax({
             type: "GET",
-            url: `/customers/${customer_id}`,
+            url: `/products/${product_id}`,
             contentType: "application/json",
             data: ''
         });
         ajax.done(function(res){
-            update_customer_form_data(res);
+            update_product_form_data(res);
             flash_message("Success");
         });
         ajax.fail(function(res){
-            clear_customer_form_data();
+            clear_product_form_data();
             flash_message(res.responseJSON.message);
         });
     });
     // *******************************************************
-    // Delete a Customer
+    // Delete a Product
     // *******************************************************
     $("#delete-btn").click(function () {
-        let customer_id = $("#customer_id").val();
+        let product_id = $("#product_id").val();
         $("#flash_message").empty();
         let ajax = $.ajax({
             type: "DELETE",
-            url: `/customers/${customer_id}`,
+            url: `/products/${product_id}`,
             contentType: "application/json",
             data: ''
         });
         ajax.done(function(res){
-            clear_customer_form_data();
-            flash_message("Customer has been Deleted!");
+            clear_product_form_data();
+            flash_message("Product has been Deleted!");
         });
         ajax.fail(function(res){
             flash_message("Server error!");
         });
     });
     // *******************************************************
-    // Clear the customer form
+    // Clear the product form
     // *******************************************************
     $("#clear-btn").click(function () {
-        clear_customer_form_data();
+        clear_product_form_data();
         $("#flash_message").empty();
     });
     // *******************************************************
-    // Search for a Customer
+    // Search for a Product
     // *******************************************************
     $("#search-btn").click(function () {
-        let id = $("#customer_id").val();
-        let name = $("#customer_name").val();
-        let last_name = $("#customer_last_name").val();
-        let first_name = $("#customer_first_name").val();
-        let email = $("#customer_email").val();
-        //let phone_number = $("#phone_number").val();
+        let id = $("#product_id").val();
+        let name = $("#product_name").val();
+        let category = $("#product_category").val();
+        let price = $("#product_price").val();
+        var available = false;
+        if($("#product_available").is(':checked')){
+            available = true;
+        }
+
         let queryString = "";
         if (id) {
             queryString = '/' + id
@@ -167,50 +170,46 @@ $(function () {
         if (name) {
             queryString += '?name=' + name
         };
-        if (first_name) {
-            queryString += '?first_name=' + first_name
+        if (category) {
+            queryString += '?category=' + category
         };
-        if (last_name) {
-            queryString += '?last_name=' + last_name
+        if (price) {
+            queryString += '?price=' + price
         };
-        if (email) {
-            queryString += '?email=' + email
+        if (available) {
+            queryString += '?available=' + available
         };
-        // if (phone_number) {
-        //     queryString += 'phone_number=' + phone_number
-        // };
         $("#flash_message").empty();
         let ajax = $.ajax({
             type: "GET",
-            url: `/customers${queryString}`,
+            url: `/products${queryString}`,
             contentType: "application/json",
             data: ''
         });
         ajax.done(function(res){
-            //alert(res.toSource())
+
             $("#search_results").empty();
             let table = '<table class="table table-striped" cellpadding="10">';
             table += '<thead><tr>';
             table += '<th class="col-md-2">ID</th>';
-            table += '<th class="col-md-2">Username</th>';
-            table += '<th class="col-md-2">First Name</th>';
-            table += '<th class="col-md-2">Last Name</th>';
-            table += '<th class="col-md-2">Email</th>';
-            table += '<th class="col-md-2">Phone Number</th>';
+            table += '<th class="col-md-2">Name</th>';
+            table += '<th class="col-md-2">Category</th>';
+            table += '<th class="col-md-2">Availability</th>';
+            table += '<th class="col-md-2">Price</th>';
             table += '</tr></thead><tbody>';
-            let firstCustomer = "";
+            let firstProduct = "";
             for(let i = 0; i < res.length; i++) {
-                let customer = res[i];
-                table +=  `<tr id="row_${i}"><td>${customer.id}</td><td>${customer.name}</td><td>${customer.first_name}</td><td>${customer.last_name}</td><td>${customer.email}</td><td>${customer.phone_number}</td></tr>`;
+                let product = res[i];
+                table +=  `<tr id="row_${i}"><td>${product.id}</td><td>${product.name}</td><td>${product.category}</td><td>${product.available}</td><td>${product.price}</td></tr>`;
                 if (i == 0) {
-                    firstCustomer = customer;
+                    firstProduct = product;
                 };
             };
             table += '</tbody></table>';
             $("#search_results").append(table);
             // copy the first result to the form
-            if (firstCustomer != "") {
-                update_customer_form_data(firstCustomer)
+            if (firstProduct != "") {
+                update_product_form_data(firstProduct)
             };
             flash_message("Success");
         });
@@ -219,32 +218,30 @@ $(function () {
         });
     });
     // *******************************************************
-    // Suspend a customer
+    // Disable a product
     // *******************************************************
-    $("#suspend-btn").click(function () {
-        let name = $("#customer_name").val();
-        let first_name = $("#customer_first_name").val();
-        let last_name = $("#customer_last_name").val();
-        let email = $("#customer_email").val();
-        let phone_number = $("#customer_phone_number").val();
+    $("#disable-btn").click(function () {
+        let product_id = $("#product_id").val();
+        let name = $("#product_name").val();
+        let category = $("#product_category").val();
+        let price = $("#product_price").val();
+        let available = false;
+        
         let data = {
             "name": name,
-            "first_name": first_name,
-            "last_name": last_name,
-            "email": email,
-            "phone_number": phone_number,
-            "addresses": "",
-            "account_status": "suspended"
+            "category": category,
+            "price": price,
+            "available": available
         };
         $("#flash_message").empty();
         let ajax = $.ajax({
                 type: "PUT",
-                url: `/customers/${order_id}/suspend`,
+                url: `/products/${product_id}/disable`,
                 contentType: "application/json",
                 data: JSON.stringify(data)
             });
         ajax.done(function(res){
-            update_form_data("Success");
+            update_product_form_data("Success");
         });
         ajax.fail(function(res){
             flash_message(res.responseJSON.message);
