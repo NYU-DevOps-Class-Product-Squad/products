@@ -32,7 +32,7 @@
             <div class="col-sm-4">
               <button type="submit" class="btn btn-primary" id="retrieve-btn">Retrieve</button>
               <button type="submit" class="btn btn-danger" id="delete-btn">Delete</button>
-              <button type="submit" class="btn btn-warning" id="suspend-btn">Suspend</button>
+              <button type="submit" class="btn btn-warning" id="disable-btn">Disable</button>
             </div>
           </div>
         </div><!-- form horizontal -->
@@ -52,6 +52,22 @@
             <label class="control-label col-sm-2" for="product_category">Product Category:</label>
             <div class="col-sm-9">
               <input type="text" class="form-control" id="product_category" placeholder="Enter a product category">
+            </div>
+          </div>
+
+          <!-- PRODUCT AVAILABLE -->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="product_available">Product is Available:</label>
+            <div class="col-sm-9">
+              <input type="checkbox" class="form-control" id="product_available" value="available" style="width: 5%;">
+            </div>
+          </div>
+
+          <!-- PRODUCT PRICE -->
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="product_price">Product Price:</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="product_price" placeholder="Enter a price">
             </div>
           </div>
 
