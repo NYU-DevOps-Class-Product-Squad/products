@@ -1,15 +1,14 @@
 ---
-# This manifest deploys a Python Flask application with a Cloudant database
+# This manifest deploys a Python Flask application with a Elephant database
 applications:
 - name: devops-products-squad
   path: .
-  instances: 2
+  instances: 1
   memory: 128M
-  routes:
-  - route: devops-products-squad.us-south.cf.appdomain.cloud
+  hostname: devops-products-squad
+  domain: us-south.cf.appdomain.cloud
   disk_quota: 1024M
-  buildpacks: 
-  - python_buildpack
+  buildpack: python_buildpack
   timeout: 180
   services:
   - ElephantSQL
