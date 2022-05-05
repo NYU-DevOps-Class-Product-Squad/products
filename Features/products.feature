@@ -13,7 +13,7 @@ Background:
 
 Scenario: The server is running
     When I visit the "Home Page"
-    Then I should see "Product RESTful Service" in the title
+    Then I should see "Product REST API Service" in the title
     And I should not see "404 Not Found"
 
 Scenario: Create a Product
@@ -24,18 +24,18 @@ Scenario: Create a Product
     And I set the "price" to "100"
     And I press the "Create" button
     Then I should see the message "Success"
-    When I copy the "id" field
-    And I press the "Clear" button
-    Then the "id" field should be empty
-    And the "name" field should be empty
-    And the "category" field should be empty
-    And the "price" field should be empty
-    When I paste the "id" field
-    And I press the "Retrieve" button
-    Then I should see "Jacket" in the "name" field
-    And I should see "Clothing" in the "category" field
-    #And I should see "TRUE" in the "Available" dropdown
-    And I should see "100" in the "price" field
+    # When I copy the "id" field
+    # And I press the "Clear" button
+    # Then the "id" field should be empty
+    # And the "name" field should be empty
+    # And the "category" field should be empty
+    # And the "price" field should be empty
+    # When I paste the "id" field
+    # And I press the "Retrieve" button
+    # Then I should see "Jacket" in the "name" field
+    # And I should see "Clothing" in the "category" field
+    # #And I should see "TRUE" in the "Available" dropdown
+    # And I should see "100" in the "price" field
 
 
 # Scenario: Search for categories
