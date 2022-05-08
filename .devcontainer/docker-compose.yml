@@ -12,10 +12,12 @@ services:
     #   - 8000:8000
     volumes:
       - ..:/app
+      - ~/.bluemix/:/home/devops/.bluemix/
     command: sleep infinity
     environment:
       FLASK_APP: service:app
       FLASK_ENV: development
+      GUNICORN_BIND: "0.0.0.0:8000"
       DATABASE_URI: postgresql://postgres:postgres@postgres:5432/postgres
     networks:
       - dev
@@ -24,8 +26,8 @@ services:
 
   postgres:
     image: postgres:alpine
-    ports:
-      - 5432:5432
+    # ports:
+    #   - 5432:5432
     environment:
       POSTGRES_PASSWORD: postgres
     volumes:

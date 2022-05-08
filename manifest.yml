@@ -1,12 +1,12 @@
 ---
 # This manifest deploys a Python Flask application with a Elephant database
 applications:
-- name: devops-products-squad
+- name: nyu-product-service-sp2201
   path: .
   instances: 1
   memory: 128M
-  hostname: devops-products-squad
-  domain: us-south.cf.appdomain.cloud
+  routes: 
+  - route: nyu-product-service-sp2201.us-south.cf.appdomain.cloud
   disk_quota: 1024M
   buildpack: python_buildpack
   timeout: 180
