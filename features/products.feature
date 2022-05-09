@@ -5,11 +5,11 @@ Feature: The product service back-end
 
 Background:
     Given the following products
-        | name   | category  | available | price |
-        | Jacket | Clothing  | True      | 100   |
-        | Shirt  | Clothing  | False     | 150   |
-        | Pen    | Stationary| True      | 200   |
-        | Couch  | Furniture | False     | 250   |
+    | name   | category  | available | price |
+    | Jacket | Clothing  | True      | 100   |
+    | Shirt  | Clothing  | False     | 150   |
+    | Pen    | Stationary| True      | 200   |
+    | Couch  | Furniture | False     | 250   |
 
 Scenario: The server is running
     When I visit the "Home Page"
@@ -18,34 +18,50 @@ Scenario: The server is running
 
 Scenario: Create a Product
     When I visit the "Home Page"
-    And I set the "name" to "Jacket"
+    And I set the "name" to "Pants"
     And I set the "category" to "Clothing" 
     #And I select "avaliable" 
-    And I set the "price" to "100"
+    And I set the "price" to "75"
     And I press the "Create" button
     Then I should see the message "Success"
-    # When I copy the "id" field
-    # And I press the "Clear" button
-    # Then the "id" field should be empty
-    # And the "name" field should be empty
-    # And the "category" field should be empty
-    # And the "price" field should be empty
-    # When I paste the "id" field
-    # And I press the "Retrieve" button
-    # Then I should see "Jacket" in the "name" field
-    # And I should see "Clothing" in the "category" field
-    # #And I should see "TRUE" in the "Available" dropdown
-    # And I should see "100" in the "price" field
+    When I copy the "id" field
+    And I press the "Clear" button
+    Then the "id" field should be empty
+    And the "name" field should be empty
+    And the "category" field should be empty
+    And the "price" field should be empty
+    When I paste the "id" field
+    And I press the "Retrieve" button
+    Then I should see "Pants" in the "name" field
+    And I should see "Clothing" in the "category" field
+    #And I should see "TRUE" in the "Available" dropdown
+    And I should see "75" in the "price" field
+
+# Scenario: List all Products
+#     When I visit the "Home Page"
+#     And I press the "Search" button
+#     Then I should see "Jacket" in the results
+#     And I should see "Shirt" in the results
+#     And I should not see "Dog" in the results
+
+Scenario: Search by Name
+    When I visit the "Home Page"
+    And I press the "Clear" button
+    And I set the "name" to "Jacket"
+    And I press the "Search" button
+    Then I should see "Jacket" in the "name" field
+    And I should see "Clothing" in the "category" field
+    And I should see "100" in the "price" field
 
 
 # Scenario: Search for categories
 #     When I visit the "Home Page"
-#     And I set the "Category" to "Top"
+#     And I press the "Clear" button
+#     And I set the "category" to "Clothing"
 #     And I press the "Search" button
-#     Then I should see "jacket" in the results
-#     And I should  see "shirt" in the results
-#     And I should not see "pants" in the results
-#     And I should not see "socks" in the results
+#     Then I should see "Pants" in the results
+#     And I should not see "Pen" in the results
+#     And I should not see "Couch" in the results
 
 # Scenario: Search for available
 #     When I visit the "Home Page"

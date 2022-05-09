@@ -188,6 +188,7 @@ $(function () {
         });
         ajax.done(function(res){
 
+            console.log("query is " + ("/products" + queryString));
             $("#search_results").empty();
             let table = '<table class="table table-striped" cellpadding="10">';
             table += '<thead><tr>';
