@@ -23,8 +23,12 @@ For information on Waiting until elements are present in the HTML see:
 from itertools import product
 import json
 import requests
-from behave import given
-from compare import expect
+from behave import given, when, then
+from compare import expect, ensure
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support import expected_conditions
 
 @given('the following products')
 def step_impl(context):
@@ -43,7 +47,7 @@ def step_impl(context):
         data = {
             "name": row['name'],
             "category": row['category'],
-            "available": row['available'],
+            "available": row['available'] in ['True', 'true', '1'],
             "price": row['price']
         }
         payload = json.dumps(data)

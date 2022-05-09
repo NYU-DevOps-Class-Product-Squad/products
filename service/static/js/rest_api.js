@@ -15,10 +15,13 @@ $(function () {
         $("#product_id").val(res.id);
         $("#product_name").val(res.name);
         $("#product_category").val(res.category);
-        $( "#product_available" ).prop( "checked", false );
+        $( "#product_available" ).val(res.available);
 
         if(res.available == true){
-            $( "#product_available" ).prop( "checked", true );
+            $( "#product_available" ).val("true");
+        }
+        else{
+            $( "#product_available" ).val("false");
         }
 
         $("#product_price").val(res.price);
@@ -29,7 +32,7 @@ $(function () {
         $("#product_name").val("");
         $("#product_category").val("");
         $("#product_price").val("");
-        $("#product_available").prop( "checked", false );
+        $("#product_available").val("");
     };
 
     // *******************************************************
@@ -41,10 +44,7 @@ $(function () {
         let name = $("#product_name").val();
         let category = $("#product_category").val();
         let price = $("#product_price").val();
-        var available = false;
-        if($("#product_available").is(':checked')){
-            available = true;
-        }
+        let available = $("#product_available").val() == "true";
 
         let data = {
             "name": name,
@@ -76,10 +76,8 @@ $(function () {
         let name = $("#product_name").val();
         let category = $("#product_category").val();
         let price = $("#product_price").val();
-        var available = false;
-        if($("#product_available").is(':checked')){
-            available = true;
-        }
+        let available = $("#product_available").val() == "true";
+
         
         let data = {
             "name": name,
@@ -158,27 +156,52 @@ $(function () {
         let name = $("#product_name").val();
         let category = $("#product_category").val();
         let price = $("#product_price").val();
-        var available = false;
-        if($("#product_available").is(':checked')){
-            available = true;
-        }
+        let available = $("#product_available").val() == "true";   
+        
+        var previousQuery = false;
 
         let queryString = "";
         if (id) {
             queryString = '/' + id
         };
+
         if (name) {
-            queryString += '?name=' + name
+            queryString += '?name=' + name;
+            previousQuery = true;
         };
+
         if (category) {
-            queryString += '?category=' + category
+            if(previousQuery){
+                queryString += "&";
+            }
+            else{
+                queryString += "?";
+            }
+            queryString += 'category=' + category;
+            previousQuery = true;
         };
+
         if (price) {
-            queryString += '?price=' + price
+            if(previousQuery){
+                queryString += "&";
+            }
+            else{
+                queryString += "?";
+            }
+            queryString += 'price=' + price;
+            previousQuery = true;
         };
+
         if (available) {
-            queryString += '?available=' + available
+            if(previousQuery){
+                queryString += "&";
+            }
+            else{
+                queryString += "?";
+            }
+            queryString += 'available=' + available;
         };
+
         $("#flash_message").empty();
         let ajax = $.ajax({
             type: "GET",
