@@ -74,3 +74,19 @@ Scenario: Disable a Product
     And I paste the "id" field
     And I press the "Retrieve" button
     Then I should see "False" in the "available" dropdown
+
+Scenario: Delete a Product
+    When I visit the "Home Page"
+    And I press the "Search" button
+    Then I should see "Jacket" in the results
+    When I press the "Delete" button
+    Then I should see the message "Product has been Deleted!"
+Scenario: Read a Product
+    When I visit the "Home Page"
+    And I set the "name" to "Shirt"
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Shirt" in the "name" field
+    And I should see "Clothing" in the "category" field
+    And I should see "False" in the "available" dropdown
+    And I should see "150" in the "price" field
