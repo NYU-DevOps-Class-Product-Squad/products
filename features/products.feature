@@ -69,10 +69,10 @@ Scenario: List all Products
 Scenario: Disable a Product
     When I visit the "Home Page"
     And I press the "Search" button
-    And I copy the "id" field
+    #And I copy the "id" field
     And I press the "Disable" button
-    And I paste the "id" field
-    And I press the "Retrieve" button
+    #And I paste the "id" field
+    #And I press the "Retrieve" button
     Then I should see "False" in the "available" dropdown
 
 Scenario: Delete a Product
