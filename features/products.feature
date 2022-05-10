@@ -81,6 +81,7 @@ Scenario: Delete a Product
     Then I should see "Jacket" in the results
     When I press the "Delete" button
     Then I should see the message "Product has been Deleted!"
+    
 Scenario: Read a Product
     When I visit the "Home Page"
     And I set the "name" to "Shirt"
@@ -90,3 +91,31 @@ Scenario: Read a Product
     And I should see "Clothing" in the "category" field
     And I should see "False" in the "available" dropdown
     And I should see "150" in the "price" field
+    
+Scenario: Update Product
+    When I visit the "Home Page"
+    And I set the "name" to "Pen"
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Pen" in the "name" field
+    And I should see "Stationary" in the "category" field
+    And I should see "True" in the "available" dropdown
+    And I should see "200" in the "price" field
+    When I change "price" to "15"
+    And I press the "Update" button
+    Then I should see the message "Success"
+    When I copy the "id" field
+    And I press the "Clear" button
+    And I paste the "id" field
+    And I press the "Retrieve" button
+    Then I should see the message "Success"
+    And I should see "Pen" in the "name" field
+    And I should see "Stationary" in the "category" field
+    And I should see "True" in the "available" dropdown
+    And I should see "15" in the "price" field
+    When I press the "Clear" button
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "15" in the results
+    And I should not see "200" in the results
+ 
